@@ -1,17 +1,14 @@
-# Используем PHP 8.2 с Apache
+# Используем официальный PHP-образ с Apache
 FROM php:8.2-apache
 
-# Копируем файлы сайта в контейнер
+# Копируем файлы проекта в контейнер
 COPY . /var/www/html/
 
-# Включаем нужные модули PHP (если понадобится)
-RUN docker-php-ext-install curl
+# Включаем нужные модули Apache
+RUN docker-php-ext-install mysqli && a2enmod rewrite
 
-# Устанавливаем рабочую директорию
-WORKDIR /var/www/html/
-
-# Открываем порт
+# Открываем порт 80
 EXPOSE 80
 
-# Запускаем Apache
+# Указываем команду запуска
 CMD ["apache2-foreground"]
